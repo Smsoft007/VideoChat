@@ -62,21 +62,6 @@ final class SignalingClient {
   }
   
   func send(candidate rtcIceCandidate: RTCIceCandidate, to person: String) {
-//    do {
-//      let dataMessage = try self.encoder.encode(IceCandidate(from: rtcIceCandidate))
-//      let dict = try JSONSerialization.jsonObject(with: dataMessage, options: .allowFragments) as! [String: Any]
-//      Firestore.firestore().collection(person).document("candidate").setData(dict) { (err) in
-//        if let err = err {
-//          print("Error send candidate: \(err)")
-//        } else {
-//          print("Candidate sent!")
-//        }
-//      }
-//    }
-//    catch {
-//      debugPrint("Warning: Could not encode candidate: \(error)")
-//    }
-    
     do {
       let dataMessage = try self.encoder.encode(IceCandidate(from: rtcIceCandidate))
       let dict = try JSONSerialization.jsonObject(with: dataMessage, options: .allowFragments) as! [String: Any]
@@ -95,7 +80,6 @@ final class SignalingClient {
     catch {
       debugPrint("Warning: Could not encode candidate: \(error)")
     }
-    
   }
   
   func listenSdp(from person: String) {
@@ -147,62 +131,5 @@ final class SignalingClient {
           }
         }
     }
-    
-    
-//    Firestore.firestore().collection(person).document("candidate")
-//      .addSnapshotListener { documentSnapshot, error in
-//        guard let document = documentSnapshot else {
-//          print("Error fetching candidate: \(error!)")
-//          return
-//        }
-//        guard let data = document.data() else {
-//          print("Firestore candidate data was empty.")
-//          return
-//        }
-//        print("Firestore candidate data: \(data)")
-//        do {
-//          let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
-//          let iceCandidate = try self.decoder.decode(IceCandidate.self, from: jsonData)
-//          self.delegate?.signalClient(self, didReceiveCandidate: iceCandidate.rtcIceCandidate)
-//        }
-//        catch {
-//          debugPrint("Warning: Could not decode candidate data: \(error)")
-//          return
-//        }
-//    }
   }
 }
-
-
-//extension SignalingClient: WebSocketDelegate {
-//
-//  func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
-//    let message: Message
-//    do {
-//      message = try self.decoder.decode(Message.self, from: data)
-////      print("Web socket did receive data contain json: \(data.prettyPrintedJSONString!)")
-//    }
-//    catch {
-//      debugPrint("Warning: Could not decode incoming message: \(error)")
-//      return
-//    }
-//
-//    switch message {
-//    case .candidate(let iceCandidate):
-//      self.delegate?.signalClient(self, didReceiveCandidate: iceCandidate.rtcIceCandidate)
-//    case .sdp(let sessionDescription):
-//      self.delegate?.signalClient(self, didReceiveRemoteSdp: sessionDescription.rtcSessionDescription)
-//    }
-//  }
-//}
-
-//extension Data {
-//  var prettyPrintedJSONString: String? { /// NSString gives us a nice sanitized debugDescription
-//    guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
-//      let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
-//      let prettyPrintedString = String(data: data, encoding: .utf8) else {
-//        return nil
-//    }
-//    return prettyPrintedString
-//  }
-//}

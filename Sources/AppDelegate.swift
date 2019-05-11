@@ -25,6 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     FirebaseApp.configure()
     
+    // Firestore allows offline mode by default.
+    // but I experimented an error when data that I deleted on Firestore still be returned on listener
+    // so I will turn off offline to resolve this problem
     let settings = FirestoreSettings()
     settings.isPersistenceEnabled = false
     Firestore.firestore().settings = settings
@@ -39,8 +42,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       signalClient: signalClient,
       webRTCClient: webRTCClient)
     let navViewController = UINavigationController(rootViewController: mainViewController)
-//    navViewController.navigationBar.isTranslucent = false
-//    navViewController.navigationBar.prefersLargeTitles = true
     return navViewController
   }
 }

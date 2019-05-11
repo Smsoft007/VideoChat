@@ -210,10 +210,8 @@ extension MainViewController: SignalClientDelegate {
   
   func signalClient(_ signalClient: SignalingClient, didReceiveCandidate candidate: RTCIceCandidate) {
     print("Received remote candidate")
-//    if self.remoteCandidateCount == 0 {
       self.remoteCandidateCount += 1
       self.webRTCClient.set(remoteCandidate: candidate)
-//    }
   }
 }
 
@@ -221,10 +219,8 @@ extension MainViewController: WebRTCClientDelegate {
   
   func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
     print("discovered local candidate")
-//    if self.localCandidateCount == 0 {
-      self.localCandidateCount += 1
-      self.signalClient.send(candidate: candidate, to: self.oppositePerson)
-//    }
+    self.localCandidateCount += 1
+    self.signalClient.send(candidate: candidate, to: self.oppositePerson)
   }
   
   func webRTCClient(_ client: WebRTCClient, didChangeConnectionState state: RTCIceConnectionState) {
